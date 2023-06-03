@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Tính điểm ĐH khối D</h1>
+    <form>
+      <label for="mathScore">Môn Toán:</label>
+      <input type="number" id="mathScore" name="mathScore" required>
+      <br>
+      <label for="litScore">Môn Văn:</label>
+      <input type="number" id="litScore" name="litScore" required>
+      <br>
+      <label for="engScore">Môn Anh:</label>
+      <input type="number" id="engScore" name="engScore" required>
+      <br>
+      <label for="region">Khu vực:</label>
+      <select id="region" name="region">
+        <option value="KV1">KV1</option>
+        <option value="KV2-NT">KV2-NT</option>
+        <option value="KV2">KV2</option>
+        <option value="KV3">KV3</option>
+      </select>
+      <br>
+      <button type="button" onclick="calculateTotalScore()">Tính điểm</button>
+    </form>
+    <p id="totalScore"></p>
+    <script>
+      function calculateTotalScore() {
+        let mathScore = parseFloat(document.getElementById("mathScore").value);
+        let litScore = parseFloat(document.getElementById("litScore").value);
+        let engScore = parseFloat(document.getElementById("engScore").value);
+        let region = document.getElementById("region").value;
+        let regionScore = 0;
+        switch (region) {
+          case "KV1":
+            regionScore = 0.75;
+            break;
+          case "KV2-NT":
+            regionScore = 0.5;
+            break;
+          case "KV2":
+            regionScore = 0.25;
+            break;
+          case "KV3":
+            regionScore = 0;
+            break;
+        }
+        let totalScore = mathScore + litScore + engScore + regionScore;
+        document.getElementById("totalScore").innerHTML = "Tổng điểm ĐH khối D của bạn là " + totalScore;
+      }
+    </script>
+</body>
+</html>
