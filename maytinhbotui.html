@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <style>
+        /* CSS styling for calculator */
+        #calculator {
+            width: 300px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #display {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            width: 100%;
+            height: 30px;
+            font-size: 20px;
+            border: none;
+            background-color: #f5f5f5;
+            text-align: right;
+        }
+
+        #buttons {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        button.number {
+            color: blue;
+        }
+
+        button.operator {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="calculator">
+        <div id="display">
+            <input type="text" id="result" disabled>
+        </div>
+        <div id="buttons">
+            <button class="number" value="7">7</button>
+            <button class="number" value="8">8</button>
+            <button class="number" value="9">9</button>
+            <button class="operator" value="+">+</button>
+            <button class="number" value="4">4</button>
+            <button class="number" value="5">5</button>
+            <button class="number" value="6">6</button>
+            <button class="operator" value="-">-</button>
+            <button class="number" value="1">1</button>
+            <button class="number" value="2">2</button>
+            <button class="number" value="3">3</button>
+            <button class="operator" value="*">*</button>
+            <button class="number" value="0">0</button>
+            <button class="operator" value="/">/</button>
+            <button id="equals" value="=">=</button>
+            <button id="clear" value="C">C</button>
+        </div>
+    </div>
+    <script>
+        // Lấy các phần tử giao diện
+        const result = document.getElementById('result');
+        const buttons = document.getElementById('buttons');
+
+        // Thiết lập biến cho các giá trị và phép tính
+        let num1 = '';
+        let num2 = '';
+        let operator = '';
+
+        // Xử lý sự kiện khi người dùng nhấn vào một button
+        buttons.addEventListener('click', function (event) {
+            const button = event.target;
+            const value = button.value;
+
+            if (button.classList.contains('number')) {
+                // Nếu người dùng nhấn vào một button số
+                if (operator === '') {
+                    // Nếu chưa có phép tính nào được chọn, cậpnhật giá trị cho num1
+                    num1 += value;
+                    result.value = num1;
+                } else {
+                    // Nếu đã có phép tính được chọn, cập nhật giá trị cho num2
+                    num2 += value;
+                    result.value = num2;
+                }
+            } else if (button.classList.contains('operator')) {
+                // Nếu người dùng nhấn vào một button phép tính
+                if (num1 !== '' && num2 !== '') {
+                    // Nếu đã có cả hai giá trị num1 và num2, thực hiện tính toán và lưu kết quả vào num1
+                    num1 = calculate(num1, num2, operator);
+                    num2 = '';
+                    operator = value;
+                    result.value = num1;
+                } else {
+                    // Nếu chưa có đủ hai giá trị num1 và num2, lưu giá trị của phép tính vào biến operator
+                    operator = value;
+                }
+            } else if (button.id === 'equals') {
+                // Nếu người dùng nhấn vào button "="
+                if (num1 !== '' && num2 !== '') {
+                    // Nếu đã có cả hai giá trị num1 và num2, thực hiện tính toán và hiển thị kết quả
+                    num1 = calculate(num1, num2, operator);
+                    num2 = '';
+                    operator = '';
+                    result.value = num1;
+                }
+            } else if (button.id === 'clear') {
+                // Nếu người dùng nhấn vào button "C", xóa tất cả các giá trị và trả về màn hình ban đầu
+                num1 = '';
+                num2 = '';
+                operator = '';
+                result.value = '';
+            }
+        });
+
+        // Hàm tính toán
+        function calculate(num1, num2, operator) {
+            let result = 0;
+            switch (operator) {
+                case '+':
+                    result = parseFloat(num1) + parseFloat(num2);
+                    break;
+                case '-':
+                    result = parseFloat(num1) - parseFloat(num2);
+                    break;
+                case '*':
+                    result = parseFloat(num1) * parseFloat(num2);
+                    break;
+                case '/':
+                    result = parseFloat(num1) / parseFloat(num2);
+                    break;
+                default:
+                    break;
+            }
+            return result.toString();
+        }
+    </script>
+</body>
+
+</html>
